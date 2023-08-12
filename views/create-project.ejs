@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Project</title>
+</head>
+<body>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        margin: 0;
+        padding: 0;
+        background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHN0dWRlbnRzJTIwcHJvamVjdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    #searchResults {
+        margin-top: 10px;
+    }
+</style>
+    <h1>Create a New Project</h1>
+    <form action="/create-project" method="post">
+        <label for="name">Project Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <br>
+        <label for="search">Search and Add Team Members:</label>
+        <input type="text" id="search" name="search" placeholder="Search for users...">
+        <button type="button" id="searchButton">Search</button>
+        <div id="searchResults"></div>
+        <ul id="selectedMembers"></ul>
+        <input type="hidden" id="selectedMembersInput" name="selectedMembers">
+        <br>
+        <button type="submit">Create Project</button>
+    </form>
+
+    <script>
+        const searchButton = document.getElementById('searchButton');
+        const searchInput = document.getElementById('search');
+        const searchResults = document.getElementById('searchResults');
+        const selectedMembers = document.getElementById('selectedMembers');
+        const selectedMembersInput = document.getElementById('selectedMembersInput');
+        const form = document.querySelector('form');
+    
+        const selectedUserIds = []; // Array to store selected user IDs
+    
+        // Function to display search results
+        function displaySearchResults(results) {
+            searchResults.innerHTML = '';
+            results.forEach(result => {
+                const listItem = document.createElement('li');
+                listItem.textContent = result.name;
+                const addButton = document.createElement('button');
+                addButton.textContent = 'Add';
+                addButton.dataset.userId = result._id;
+                addButton.dataset.userName = result.name;
+                listItem.appendChild(addButton);
+                searchResults.appendChild(listItem);
+            });
+        }
+    
+        // Event listener for search button
+        searchButton.addEventListener('click', async () => {
+            const searchQuery = searchInput.value;
+            if (searchQuery) {
+                const response = await fetch(`/search-users?q=${searchQuery}`);
+                const data = await response.json();
+                displaySearchResults(data);
+            }
+        });
+    
+        // Event delegation for dynamically added 'Add' buttons
+        searchResults.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Add') {
+                const listItem = event.target.parentElement;
+                const userId = event.target.dataset.userId;
+                const userName = event.target.dataset.userName;
+                addSelectedMember({ _id: userId, name: userName });
+                updateSelectedMembersInput();
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    
+        function updateSelectedMembersInput() {
+            selectedMembersInput.value = JSON.stringify(selectedUserIds);
+        }
+    
+        // Function to add a selected member
+        function addSelectedMember(result) {
+            if (!selectedUserIds.includes(result._id)) {
+                selectedUserIds.push(result._id);
+    
+                const selectedMemberItem = document.createElement('li');
+                selectedMemberItem.textContent = result.name;
+                selectedMemberItem.dataset.userId = result._id;
+                selectedMembers.appendChild(selectedMemberItem);
+            }
+        }
+    
+        // Event listener for form submission
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+    
+            // Convert the selectedUserIds array to JSON and update the input value
+            selectedMembersInput.value = JSON.stringify(selectedUserIds);
+    
+            // Manually trigger form submission
+            form.submit();
+        });
+    </script>
+</body>
+</html>

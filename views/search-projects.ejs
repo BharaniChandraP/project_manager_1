@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Projects</title>
+    <!-- Add your styles here -->
+</head>
+<body>
+    <h1>Search Results for: <%= searchQuery %></h1>
+    <% if (projects.length > 0) { %>
+        <ul>
+            <% projects.forEach(project => { %>
+                <li><a href="/projects/<%- project._id %>"><%- project.name %></a></li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No projects found.</p>
+    <% } %>
+    
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

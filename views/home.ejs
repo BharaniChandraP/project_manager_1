@@ -1,0 +1,59 @@
+
+<!-- <a href="/logout">Logout</a> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1542626991-cbc4e32524cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvamVjdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        }
+
+        .home-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .link {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <h1>Welcome to Your Project Management System</h1>
+        <a class="link" href="/dashboard">Go to Dashboard</a>
+        <a class="link" href="/create-project">Create a New Project</a>
+        <a class="link" href="/logout">Logout</a>
+        <!-- Add more links as needed -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- views/add-member.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Members</title>
+</head>
+<body>
+  <h1>Add Members to <%= project.name %></h1>
+  <form action="/add-member/<%= project._id %>" method="POST">
+    <label for="searchUser">Search User:</label>
+    <input type="text" id="searchUser" name="searchUser" placeholder="Search for a user">
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+    <% project.teamMembers.forEach(member => { %>
+      <li><%= member.name %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>

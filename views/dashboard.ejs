@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-image: url('https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2plY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .dashboard-container {
+        width: 90%;
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .logout {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+    }
+</style>
+
+
+    <div class="dashboard-container">
+        <h1>Welcome to Your Dashboard, <%= user.name %></h1>
+        
+        <h2>Your Projects:</h2>
+        <% if (ownedProjects.length > 0) { %>
+            <ul>
+                <% ownedProjects.forEach(project => { %>
+                    <li><a href="/projects/<%- project._id %>"><%- project.name %></a> (Owner)</li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No projects owned by you.</p>
+        <% } %>
+
+        <h2>Projects You're a Member Of:</h2>
+        <% if (memberProjects.length > 0) { %>
+            <ul>
+                <% memberProjects.forEach(project => { %>
+                    <li><a href="/projects/<%- project._id %>"><%- project.name %></a></li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No projects you are a member of.</p>
+        <% } %>
+        
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</body>
+</html>
+
+
